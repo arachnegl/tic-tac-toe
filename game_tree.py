@@ -104,11 +104,11 @@ class State:
 
     def __repr__(self):
         return (
-            ' - - - \n' +
-            '|{}|{}|{}|\n'.format(*self.get_row(0).upper()) +
-            '|{}|{}|{}|\n'.format(*self.get_row(1).upper()) +
-            '|{}|{}|{}|\n'.format(*self.get_row(2).upper()) +
-            ' - - - \n'
+            '{}|{}|{}\n'.format(*self.get_row(0).upper()) +
+            '-+-+-\n' +
+            '{}|{}|{}\n'.format(*self.get_row(1).upper()) +
+            '-+-+-\n' +
+            '{}|{}|{}\n'.format(*self.get_row(2).upper())
         )
 
     def __eq__(self, state):
