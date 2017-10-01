@@ -14,6 +14,18 @@ class TestViews(TestCase):
         self.assertEqual(got, 'Hello World!')
 
     def test_game(self):
-        res = client().get('/', query_string={'game': 'o   xoxox'})
+        res = client().get('/', query_string={'board': 'o   xoxox'})
         got = res.data.decode()
         self.assertEqual(got, 'o o xoxox')
+
+    def test_invalid_boards_400(self):
+        query_strings = [
+            {},
+            {'board': ''},
+            {'board': 'ooooo'},
+            {'board': 'xxxxxxxxx'},
+            {'board': 'xxxxooooo'},
+        ]
+        for qs in query_strings:
+            res = client().get('/', query_string=qs)
+            self.assertEqual(res.status_code, 400)

@@ -1,6 +1,6 @@
-from flask import Flask, request
+from flask import Flask, request, abort
 
-from game_tree import tic_tac_toe
+from game_tree import tic_tac_toe, State, StateInvalid
 
 
 app = Flask(__name__)
@@ -13,5 +13,11 @@ def hello():
 
 @app.route("/")
 def game():
-    game = request.args.get('game')
-    return tic_tac_toe(game)
+    board = request.args.get('board')
+    if not board:
+        abort(400)
+    try:
+        State(board)
+    except StateInvalid:
+        abort(400)
+    return tic_tac_toe(board)
