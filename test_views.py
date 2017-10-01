@@ -18,6 +18,11 @@ class TestViews(TestCase):
         got = res.data.decode()
         self.assertEqual(got, 'o o xoxox')
 
+    def test_game_spec(self):
+        res = client().get('/', query_string={'board': ' xxo  o  '})
+        got = res.data.decode()
+        self.assertEqual(got, 'oxxo  o  ')
+
     def test_invalid_boards_400(self):
         query_strings = [
             {},

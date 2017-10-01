@@ -33,7 +33,7 @@ class State:
 
     def has_won(self, player):
         wins = self.get_wins()
-        if len(wins) == 1:
+        if 1 <= len(wins) <= 2:
             return wins[0] == player
         return None
 
@@ -82,8 +82,12 @@ class State:
             return False
 
         # If there is a winner there can only be one
-        wins = len(self.get_wins())
-        if wins > 1:
+        wins = self.get_wins()
+        if len(wins) == 2:
+            # The same player can validly win twice
+            if not wins[0] == wins[1]:
+                return False
+        if len(wins) > 2:
             return False
 
         return True  # All checks passed
@@ -134,8 +138,13 @@ class Node:
         return self.children == []
 
     def create_children(self, depth=0):
+        player = 'o' if not depth % 2 else 'x'
         # Base Case
         if self.state.is_terminal():
+            # print(
+            #     '{} {} player: {} wins: {}'
+            #     .format(depth * '-', self, player, self.state.get_wins())
+            # )
             # leaf, no children
             return
         # Recursive Case
@@ -145,12 +154,17 @@ class Node:
                 continue
             # Generate new Child
             child_state = list(parent_state)
-            child_state[i] = 'o' if not depth % 2 else 'x'
+            child_state[i] = player
             child_state = ''.join(child_state)
             child = Node(child_state, parent=self, depth=depth)
             # Depth First
-            child.create_children(depth=depth + 1)
+            if not child.state.is_terminal():
+                child.create_children(depth=depth + 1)
             self.children.append(child)
+            # print(
+            #     '{} - {} plays - wins: {}'
+            #     .format(child, player, child.state.get_wins())
+            # )
         assert len(self.children) == parent_state.count(' ')
 
     def mini_max(self):

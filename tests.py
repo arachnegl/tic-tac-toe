@@ -11,7 +11,7 @@ class TestState(TestCase):
         assert State('ooxxoxoxx').is_valid()
         assert State('    o    ').is_valid()
         with self.assertRaises(StateInvalid):
-            State('oooxoxoxx').is_valid()
+            State('oooxoxxxx').is_valid()
 
     def test_get_rows(self):
         st = State('xxxo o o ')
@@ -82,3 +82,9 @@ class TestGame(TestCase):
         root.create_children()
         got = root.mini_max()
         self.assertEqual(got, 'o o xoxox')
+
+    def test_mini_max_spec(self):
+        root = Node(' xxo  o  ')
+        root.create_children()
+        got = root.mini_max()
+        self.assertEqual(got, 'oxxo  o  ')
