@@ -88,3 +88,9 @@ class TestGame(TestCase):
         root.create_children()
         got = root.mini_max()
         self.assertEqual(got, 'oxxo  o  ')
+
+    def test_aaron(self):
+        root = Node('  xoo x  ')
+        root.create_children()
+        got = root.mini_max()
+        self.assertEqual(got, '  xooox  ')

@@ -195,9 +195,9 @@ class Node:
 
     def utility(self):
         if self.state.has_won('o'):
-            return 10
+            return 10 - self.depth
         elif self.state.has_won('x'):
-            return -10
+            return -10 + self.depth
         else:
             return 0
 
